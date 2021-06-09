@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Diploma.Models.ValueEntryHeader>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Список документов Плана</h3>
+<div>
+    @using (Html.BeginForm("SaveFilter", "ValueEntryHeader", FormMethod.Get))
+    {
+        <div style="display:inline-block">
+            <label>Версия</label>
+            @Html.DropDownList("Version", (SelectList)ViewBag.Version, "Все версии", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div style="display:inline-block"></div>
+        <div style="display:inline-block"></div>
+        <div style="display:inline-block">
+            <label>Структура</label>
+            @Html.DropDownList("Structure", (SelectList)ViewBag.Structure, "Все подразделения", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div style="display:inline-block"></div>
+        <div style="display:inline-block"></div>
+
+        <div style="display:inline-block">
+            <label>Статья</label>
+            @Html.DropDownList("Item", (SelectList)ViewBag.Item, "Все статьи", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <input type="submit" value="Найти" class="btn btn-default" />
+    }
+</div>
+@if (Model.Count() == 0)
+{
+    <label>Нет информации</label>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BudgetItem_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Structure.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostingDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Version_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedUserID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsWorking)
+                </th>
+                <th>
+                    Действия
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelitem => item.BudgetItem.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Structure.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PostingDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Version.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedUser.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsWorking)
+                    </td>
+                    <td>
+                        @if (item.IsWorking == false)
+                        {
+                            <a href="@Url.Action("ChangeWorking",new {id=item.ID })" class="btn btn-info">Изменить</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Edit",new { id = item.ID })" class="btn btn-warning"><i class="fa fa-pencil-square-o"></i></a>
+                            <a href="@Url.Action("ChangeWorking",new {id=item.ID })" class="btn btn-info">Подтвердить</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Домашняя страница";
+}
+<p></p>
+<b>СОЗДАНИЕ БЮДЖЕТА</b>
+<ul>    
+    <li>@Html.ActionLink("Список документов", "Index", "ValueEntryHeader")</li>
+    <li>@Html.ActionLink("Статус заполнения", "Report", "ValueEntryHeader")</li>
+</ul>
+<b>ОТЧЕТНОСТЬ</b>
+<ul>
+    <li>@Html.ActionLink("Финансовый результат План-Факт", "PnL", "Reports")</li>
+    <li>@Html.ActionLink("Финансовый результат Динамика", "Dynamics", "Reports")</li>
+    <li><a href="http://192.168.82.36/Reports/Pages/Folder.aspx">Портал отчетов</a></li>
+</ul>
+@if (User.IsInRole("Admin") || User.IsInRole("ModelCreater"))
+{
+<b>БЮДЖЕТНАЯ МОДЕЛЬ</b>
+<ul>
+    <li>@Html.ActionLink("Структура ЦФО", "Index", "Structure")</li>
+    <li>@Html.ActionLink("Список бюджетов", "Index", "BudgetName")</li>
+    <li>@Html.ActionLink("Статьи бюджетов", "Index", "BudgetItem")</li>
+    <li>@Html.ActionLink("Версии бюджетов", "Index", "BudgetVersion")</li>
+    <li>@Html.ActionLink("Периодические задания", "Index", "Task")</li>
+</ul>
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <b>АДМИНИСТРИРОВАНИЕ</b>
+    <ul>
+        <li>@Html.ActionLink("Роли Приложения", "Index", "Roles") </li>
+        <li>@Html.ActionLink("Пользователи", "Index", "Users")</li>
+        <li>@Html.ActionLink("Периодические задания", "Index", "AdmTasks")</li>
+    </ul>
+}
+
+

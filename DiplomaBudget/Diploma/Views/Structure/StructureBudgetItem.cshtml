@@ -1,0 +1,43 @@
+﻿<hr />
+<label class="control-label">Статьи бюджета</label>
+<div class="ItemDetails container" id="DetailsModule">
+    <table class="table table-responsive">
+        <tr>
+            <th>
+                Название бюджета
+            </th>
+            <th>
+                Статья бюджета
+            </th>
+            <th></th>
+        </tr>
+        <tr class="mycontainer" id="mainrow">
+            <td>
+                @Html.DropDownList("BudgetName", ViewBag.BudgetName as SelectList, "Выберите", new { @class = "Budget form-control", @id = "Budget", @onchange = "LoadItems(this)" })
+                @Html.ValidationMessage("BudgetName", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.DropDownList("BudgetItem", ViewBag.BudgetItem as SelectList, "Выберите", new { @class = "Item form-control", @id = "Item" })
+                @Html.ValidationMessage("BudgetItem", new { @class = "text-danger" })
+            </td>
+            <td>
+                <input type="button" id="add" value="Добавить" style="width:80px" class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
+    <div id="DetailsReady">
+        <table class="table table-responsive" id="StructureBudgetItems">
+            <tbody></tbody>
+        </table>
+        <span id="BudgetItemsError" style="color:red"></span>
+    </div>
+
+
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="@Url.Content("~/Scripts/CascadeListsStructureBudgetItem.js?ver=001")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/SaveAddStructureBudgetItem.js?ver=001")"></script>
+}

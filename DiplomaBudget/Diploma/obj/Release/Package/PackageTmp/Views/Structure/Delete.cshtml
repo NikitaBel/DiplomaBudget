@@ -1,0 +1,26 @@
+﻿@model Diploma.Models.Structure
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h4>Удаление</h4>
+<hr />
+<p>Подтвердите удаление данного ЦФО и всех привязок</p>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Удалить" class="btn btn-default" />
+                @Html.ActionLink("Назад", "Index", "Structure", htmlAttributes: new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+<p></p>
+
+
+

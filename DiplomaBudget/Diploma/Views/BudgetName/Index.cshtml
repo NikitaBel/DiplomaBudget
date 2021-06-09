@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Diploma.Models.BudgetName>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>Бюджет</h4>
+
+<p>
+    @Html.ActionLink("Создать", "Create", "BudgetName",htmlAttributes:new { @class = "btn btn-info" })
+</p>
+@if (Model.Count() == 0)
+{
+    <label>Нет информации</label>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Active)
+                </th>
+                <th>
+                    Действия
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details",new { id = item.ID })" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
+                        <a href="@Url.Action("Edit",new { id = item.ID })" class="btn btn-warning"><i class="fa fa-pencil-square-o"></i></a>
+                        <a class="Delete btn btn-danger" id="@item.ID"><i class="fa fa-trash-o"></i></a>                       
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div id="Modal" title="Предупреждение!">
+    Подтвердите удаление бюджета и всех связанных с ним статей.
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ID = 0;
+            $('#Modal').dialog({
+                draggable: true,
+                resizable: false,
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    "Да": function (e) {
+                        e.preventDefault();
+                        let data = { id: ID };
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("Delete", "BudgetName")',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            success: function (data) {
+                                alert(data.message);
+                                location.reload(true);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                        $(this).dialog('close');
+                    },
+                    "Нет": function () {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            $(".Delete").click(function () {
+                ID = parseInt(this.id.valueOf());
+                let data = { id: ID };
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("DeleteCheck", "BudgetName")',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data.id != 0) {
+                            $('#Modal').dialog('open');                            
+                        }
+                        else {
+                            alert(data.message);                            
+                        }                        
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });                
+            });
+       })
+    </script>
+}
