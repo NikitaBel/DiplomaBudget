@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<a href="@Url.Action("UpdateSalesPlan", "Task")" hidden="hidden" id="UpdateSalePlan"></a>
+<a href="@Url.Action("UpdateCostsPlan", "Task")" hidden="hidden" id="UpdateCostPlan"></a>
+<a href="@Url.Action("LoadItems", "Task")" hidden="hidden" id="LoadItems"></a>
+<a href="@Url.Action("LoadVersions", "Task")" hidden="hidden" id="LoadVersions"></a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Задача
+            </th>
+            <th>
+                Действия
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Загрузка плановых данных продаж из куба SaleOut</td>
+            <td>
+                <a class="btn btn-info" id="ExecUpdateSalePlan">Выполнить</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Загрузка плановых данных себестоимости из куба SaleOut</td>
+            <td>
+                <a class="btn btn-info" id="ExecUpdateCostPlan">Выполнить</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="Modal" title="Параметры">
+    <div class="form-group">
+        <label>Выберите версию бюджета</label>
+        <div>
+            <select class="Versions form-control" ></select>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <label>Выберите статью</label>
+        <div>
+            <select class="Items form-control"></select>
+        </div>
+    </div>
+</div>
+
+<div id="ModalCost" title="Параметры">
+    <div class="form-group">
+        <label>Выберите версию бюджета</label>
+        <div>
+            <select class="Versions form-control" ></select>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <label>Выберите статью</label>
+        <div>
+            <select class="Items form-control" ></select>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="@Url.Content("~/Scripts/MyScripts/TaskUpdateSalesPlan.js?ver=003")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MyScripts/TaskUpdateCostsPlan.js?ver=002")" type="text/javascript"></script>
+
+
+}
+

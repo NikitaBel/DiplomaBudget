@@ -1,0 +1,143 @@
+﻿@model Diploma.Models.Structure
+
+@{
+    ViewBag.Title = "Edit";
+}
+<h4>Привязка ЦФО к статье</h4>
+
+@*Ссылка для каскадного списка*@
+<a href="@Url.Action("LoadItems","Structure")" hidden="hidden" id="LoadItems"></a>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("ParentID", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Active)
+                @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <hr />
+    @*<label class="control-label">Статьи бюджета</label>*@
+    <div>
+        @Html.ActionLink("Создать привязку","CreateBudgetItemBind","Structure",new { StructureID = Model.ID },htmlAttributes:new { @class = "btn btn-info" })
+    </div>
+    <div class="ItemDetails container" id="DetailsModule">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Название бюджета
+                        </th>
+                        <th>
+                            Статья бюджета
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Structure_Budget_Items)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(c=>item.BudgetItem.BudgetName.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(c=>item.BudgetItem.Name)
+                            </td>
+                            <td>
+                                <a href="~/Structure/EditBudgetItemBind?StructureID=@item.StructureID&BudgetItemID=@item.BudgetItemID" class="btn btn-warning"><i class="fa fa-pencil-square-o"></i></a>
+                                <a class="Delete btn btn-danger" id="@item.ID"><i class="fa fa-trash-o"></i></a>
+                                @*<a class="Delete btn btn-danger" data-toggle="modal" data-target="#Modal" id="@item.ID"><i class="fa fa-trash-o"></i></a>*@
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>                
+            </table>        
+        </div>
+        
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить" class="btn btn-info" />
+            @Html.ActionLink("Назад", "Index", "Structure",htmlAttributes:new { @class = "btn btn-info" })
+        </div>
+    </div>
+</div>
+}
+
+
+<div id="Modal" title="Предупреждение!">
+    Вы уверены, что хотите удалить эту запись?
+</div>
+
+@section scripts{    
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="@Url.Content("~/Scripts/MyScripts/CascadeListsStructureBudgetItem.js?ver=001")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MyScripts/SaveAddStructureBudgetItem.js?ver=001")" type="text/javascript"></script>   
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ID = 0;
+            $('#Modal').dialog({
+                draggable: true,
+                resizable: false,
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    "Да": function (e) {
+                        e.preventDefault();
+                        let data = { id: ID };
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("DelBudgetItemBind", "Structure")',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            success: function (data) {
+                                alert("Привязка была успешно удалена");
+                                location.reload(true);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                        $(this).dialog('close');
+                    },
+                    "Нет": function () {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            $(".Delete").click(function () {
+                $('#Modal').dialog('open');
+                ID = parseInt(this.id.valueOf());
+            });
+       })        
+    </script>
+}
+

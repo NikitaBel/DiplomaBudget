@@ -1,0 +1,93 @@
+﻿@model Diploma.Models.Structure
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@*Ссылка для каскадного списка*@
+<a href="@Url.Action("LoadItems","Structure")" hidden="hidden" id="LoadItems"></a>
+@*Ссылка для выполнения сохранения*@
+<a href="@Url.Action("CreateSave","Structure")" hidden="hidden" id="CreateSave"></a>
+
+<h2>Создать</h2>
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("ParentID", null, "Нет родителя", htmlAttributes: new { @class = "form-control", @id = "Parent" })
+            @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Active, new { htmlAttributes = new { @id = "Active" } })
+                @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <label class="control-label">Статьи бюджета</label>
+    <div class="ItemDetails container" id="DetailsModule">
+        <table class="table table-responsive">
+            <tr>
+                <th>
+                    Название бюджета
+                </th>
+                <th>
+                    Статья бюджета
+                </th>
+                <th></th>
+            </tr>
+            <tr class="mycontainer" id="mainrow">
+                <td>
+                    @Html.DropDownList("BudgetName", ViewBag.BudgetName as SelectList, "Выберите", new { @class = "Budget form-control", @id = "Budget", @onchange = "LoadItems(this)" })
+                    @Html.ValidationMessage("BudgetName", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.DropDownList("BudgetItem", ViewBag.BudgetItem as SelectList, "Выберите", new { @class = "Item form-control", @id = "Item" })
+                    @Html.ValidationMessage("BudgetItem", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <input type="button" id="add" value="Добавить" style="width:80px" class="btn btn-success" />
+                </td>
+            </tr>
+        </table>
+        <div id="DetailsReady">
+            <table class="table table-responsive" id="StructureBudgetItems">
+                <tbody></tbody>
+            </table>
+            <span id="BudgetItemsError" style="color:red"></span>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить" class="btn btn-info" id="submit" />
+            @Html.ActionLink("Назад", "Index", "Structure",htmlAttributes:new { @class = "btn btn-info" })
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="@Url.Content("~/Scripts/MyScripts/CascadeListsStructureBudgetItem.js?ver=001")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MyScripts/SaveAddStructureBudgetItem.js?ver=001")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MyScripts/CreateStructure.js?ver=001")" type="text/javascript"></script>
+}

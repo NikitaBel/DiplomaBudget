@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Diploma.Models.BudgetItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>Список статей</h4>
+<input hidden="hidden" id="Error" value="@ViewBag.Error" />
+<p>
+    @Html.ActionLink("Создать", "Create", "BudgetItem",htmlAttributes:new {@class= "btn btn-info" })
+</p>
+@if (Model.Count() == 0)
+{
+    <label>Нет информации</label>
+}
+else
+{
+    <table class="table" id="Datatable">
+        <thead>
+            <tr>
+                <th>
+                    Но.
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    Родитель
+                </th>
+                <th>
+                    Бюджет Имя
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Active)
+                </th>                     
+                <th>
+                    Действия
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SortOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ParentBudget_Item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BudgetName.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>                                     
+                    <td>
+                        <a href="@Url.Action("Edit",new { id = item.ID })" class="btn btn-warning"><i class="fa fa-pencil-square-o"></i></a>                                            
+                        <a href="@Url.Action("Delete",new { id = item.ID })" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/dataTables.fixedHeader.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Datatable').DataTable({
+                dom: 'frltip',
+                language: {
+                    search: "Найти: ",
+                    paginate: {
+                        first: "Первый",
+                        last: "Последний",
+                        next: "Следующий",
+                        previous:"Предыдущий"
+                    },
+                    info: "Показывать с _START_ по _END_ из _TOTAL_ записей",
+                    lengthMenu: "Показывать _MENU_ записей"
+                },
+                order: [[0, 'asc']],
+                columnDefs: [
+                    { orderable: false, targets: 4 }
+                ],
+                lengthMenu: [10, 5, 15],
+                pagingType: "full",
+                
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            if ($('#Error').val() != "") {
+                alert($('#Error').val());
+            }
+        });
+    </script>
+}
+

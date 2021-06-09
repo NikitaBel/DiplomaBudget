@@ -1,0 +1,27 @@
+﻿@model Diploma.Models.BudgetName
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4>Статьи входящие в бюджет @Model.Name</h4>
+
+<div>     
+        <table class="table">
+            <tr>
+                <th>Название статьи</th>                    
+            </tr>
+            @foreach (var item in Model.Budget_Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelitem=>item.Name)
+                    </td>
+                </tr>
+            }
+        </table>        
+</div>
+<p>    
+    @Html.ActionLink("Назад", "Index", "BudgetName", htmlAttributes:new { @class="btn btn-info"})
+</p>
+

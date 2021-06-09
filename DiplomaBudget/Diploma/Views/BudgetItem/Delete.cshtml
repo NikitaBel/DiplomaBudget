@@ -1,0 +1,85 @@
+﻿@model Diploma.Models.BudgetItem
+
+@{
+    ViewBag.Title = "Delete";
+}
+<h3>Вы уверены, что хотите удалить статью?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BudgetName.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BudgetName.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentBudget_Item.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Level)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Level)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SortOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SortOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnaryOperator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnaryOperator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MDX_Formula)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MDX_Formula)
+        </dd>       
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-info" />
+            @Html.ActionLink("Назад", "Index", "BudgetItem",htmlAttributes:new {@class= "btn btn-info" })
+        </div>
+    }
+</div>
+

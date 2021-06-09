@@ -1,0 +1,7 @@
+SSRS server URL -"http://nks2/ReportServer"
+SSRS folder name -"ReportTest" 
+Report name - "Report3"
+
+http://nks2/ReportServer/
+
+http://nks2/ReportServer/Pages/ReportViewer.aspx?%2fReportTest%2fReport3&rs:Command=Render

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Diploma.Models.Reports.ReportPlanAct>
+
+<div style="padding:20px">
+    @using (Html.BeginForm("GetPnl", "Reports", FormMethod.Get))
+    {
+        <div style="display:inline-block">
+            <label>Версия</label>
+            @Html.DropDownList("Version", (SelectList)ViewBag.Version, null, htmlAttributes: new { @class = "form-control", @id = "Version" })
+        </div>
+        <div style="display:inline-block"></div>
+        <div style="display:inline-block"></div>
+        <div style="display:inline-block">
+            <label>Дата</label>
+            @Html.DropDownList("Date", (SelectList)ViewBag.Date,null ,htmlAttributes: new { @class = "form-control",@id="Date" })
+        </div>
+        <input type="submit" value="Выполнить" class="btn btn-default" />
+    }
+</div>
+
+
+@if (Model == null)
+{
+    <label>Нажмите кнопку Выполнить для получения данных</label>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(c => c.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(c => c.A)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(c => c.B)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(c => c.E)
+                </th>
+                <th>
+                    <div style="color:blue">План Нар. Итог</div>
+                </th>
+                <th>
+                    <div style="color:blue">Факт Нар. Итог</div>
+                </th>
+                <th>
+                    <div style="color:blue">Отклон. Нар. Итог</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(c => item.Name)
+                    </td>
+                    <td>
+                        <label>@Math.Round(item.A).ToString("#,0")</label>
+                    </td>
+                    <td>
+                        <label>@Math.Round(item.B).ToString("#,0")</label>
+                    </td>
+                    <td>
+                        <label>@Math.Round(@item.E, 2).ToString("0%")</label>
+                    </td>
+                    <td>
+                        <label>@Math.Round(item.C).ToString("#,0")</label>
+                    </td>
+                    <td>
+                        <label>@Math.Round(item.D).ToString("#,0")</label>
+                    </td>
+                    <td>
+                        <label>@Math.Round(@item.F, 2).ToString("0%")</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
